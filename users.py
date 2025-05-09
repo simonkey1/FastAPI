@@ -3,6 +3,16 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+# Entidad usuarios
+
+
+class User(BaseModel):
+    name: str
+    surname: str
+    url: str
+    age: int
+
+
 @app.get("/usersjson")
 async def usersjson():
     return [{"name": "Simon", "surname": "Gómez", "url" : "https://www.google.cl", "age": 25},
@@ -13,14 +23,9 @@ async def usersjson():
 
 
 
-# Entidad usuarios
-
-class User():
-    name: str
-    surname: str
-    url: str
-    age: int
-
+@app.get("/usersclass")
+async def userclass():
+    return User(name='Chita', surname="Gloria", url="https://yahoo.com", age=65)
 
             
 
