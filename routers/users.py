@@ -1,7 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+router = APIRouter(prefix="/users",
+                   tags=["users"], 
+                   responses={404: {"message": "no encontrado"}})
+
 
 # Entidad usuarios
 
@@ -20,7 +23,7 @@ users_list = [User(id=1, name='Simon', surname='Gómez', url="htts://www.google.
          User(id=4, name='Pía', surname='Vargas', url="htts://www.google.cl", age=21),
          User(id=4, name='Manuel', surname='Ortiz', url="htts://www.google.cl", age=67)]
 
-@app.get("/usersjson")
+@router.get("/usersjson")
 async def usersjson():
     return [{"name": "Simon", "surname": "Gómez", "url" : "https://www.google.cl", "age": 25},
             {"name": "Valentina", "surname": "Vargas", "url" : "https://www.google.cl", "age": 23},
@@ -30,7 +33,7 @@ async def usersjson():
 
     
 
-@app.get("/users")
+@router.get("/users")
 async def users():
     return users_list
 
@@ -38,13 +41,13 @@ async def users():
 # Path
 
 
-@app.get("/user/{id}")
+@router.get("/user/{id}")
 async def user(id: int):
     return search_user(id)
 
 # Query
 
-@app.get("/userquery/")
+@router.get("/userquery/")
 async def user(id: int):
     return search_user(id)
 
@@ -53,9 +56,9 @@ def search_user(id: int):
     try:
         return list(users)[0]
     except:
-        return {"error: no se ha encontrado el usuario"}  
+        return {"error": "no se ha encontrado el usuario"}  
 
-@app.post("/user/", response_model=User, status_code=201)
+@router.post("/user/", response_model=User, status_code=201)
 async def user(user: User):
     if type(search_user(user.id)) == User:
         raise HTTPException(status_code=404, detail="el usuario ya existe")
@@ -72,7 +75,7 @@ def search_user(id: int):
     except:
         return {"error: no se ha encontrado el usuario. "}  
 
-@app.put("/user/")
+@router.put("/user/")
 async def user(user: User):
 
     found = False
@@ -88,7 +91,7 @@ async def user(user: User):
     return user
     
 
-@app.delete("/user/{id}")
+@router.delete("/user/{id}")
 async def user(id: int):
 
     found = False
