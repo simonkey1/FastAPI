@@ -23,15 +23,6 @@ users_list = [User(id=1, name='Simon', surname='Gómez', url="htts://www.google.
          User(id=4, name='Pía', surname='Vargas', url="htts://www.google.cl", age=21),
          User(id=4, name='Manuel', surname='Ortiz', url="htts://www.google.cl", age=67)]
 
-@router.get("/usersjson")
-async def usersjson():
-    return [{"name": "Simon", "surname": "Gómez", "url" : "https://www.google.cl", "age": 25},
-            {"name": "Valentina", "surname": "Vargas", "url" : "https://www.google.cl", "age": 23},
-            {"name": "Simón", "surname": "Vargas", "url" : "https://www.google.cl","age": 16},
-            {"name": "Pía", "surname": "Vargas", "url" : "https://www.google.cl","age": 21},
-            {"name": "Manuel", "surname": "Ortiz", "url" : "https://www.google.cl","age": 67}]
-
-    
 
 @router.get("/users")
 async def users():
